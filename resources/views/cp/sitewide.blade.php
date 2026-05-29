@@ -38,7 +38,7 @@
 
         {{-- Enabled --}}
         <div class="flex items-center gap-3 mb-4">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0">
                 {{ __('beacon::fieldtype.label_enabled') }}
             </label>
             <label class="flex items-center gap-2">
@@ -55,7 +55,7 @@
 
         {{-- Type --}}
         <div class="flex items-start gap-3 mb-4">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0 pt-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0 pt-2">
                 {{ __('beacon::fieldtype.label_type') }}
             </label>
             <select name="type" x-model="type" class="input-text w-full max-w-xs">
@@ -168,7 +168,7 @@
 
         {{-- Position --}}
         <div class="flex items-start gap-3 mb-4">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0 pt-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0 pt-2">
                 {{ __('beacon::fieldtype.label_position') }}
             </label>
             <select name="position" class="input-text w-full max-w-xs">
@@ -182,7 +182,7 @@
 
         {{-- Trigger --}}
         <div class="flex items-start gap-3 mb-4">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0 pt-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0 pt-2">
                 {{ __('beacon::fieldtype.label_trigger') }}
             </label>
             <div class="flex gap-3 items-center">
@@ -206,7 +206,7 @@
 
         {{-- Frequency --}}
         <div class="flex items-start gap-3 mb-4">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0 pt-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0 pt-2">
                 {{ __('beacon::fieldtype.label_frequency') }}
             </label>
             <select name="frequency" class="input-text w-full max-w-xs">
@@ -220,7 +220,7 @@
 
         {{-- Schedule --}}
         <div class="flex items-start gap-3 mb-4">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0 pt-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0 pt-2">
                 {{ __('beacon::fieldtype.label_active_from') }}
             </label>
             <input
@@ -232,7 +232,7 @@
         </div>
 
         <div class="flex items-start gap-3 mb-6">
-            <label class="text-sm font-medium text-gray-800 dark:text-gray-200 w-40 flex-shrink-0 pt-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300 w-40 flex-shrink-0 pt-2">
                 {{ __('beacon::fieldtype.label_active_until') }}
             </label>
             <input

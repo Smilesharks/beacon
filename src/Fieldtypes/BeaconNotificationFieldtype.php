@@ -50,7 +50,7 @@ class BeaconNotificationFieldtype extends Fieldtype
         return __('beacon::fieldtype.status_enabled', ['type' => __('beacon::fieldtype.type_'.$type)]);
     }
 
-    private function defaultValue(): array
+    public function defaultValue(): array
     {
         return [
             'enabled' => false,

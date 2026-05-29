@@ -47,4 +47,14 @@ return [
     */
     'cache_ttl' => env('BEACON_CACHE_TTL', 300),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Storage Path
+    |--------------------------------------------------------------------------
+    | Absolute path to the directory where Beacon stores its JSON data files
+    | (notifications.json, collection-rules.json). Defaults to
+    | storage/app/beacon/ in the host application.
+    */
+    'storage_path' => storage_path('app/beacon'),
+
 ];

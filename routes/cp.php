@@ -22,8 +22,8 @@ Route::prefix('cp/beacon')
         // Collection rules
         Route::get('/collections', [CollectionRulesController::class, 'index'])->name('collections.index');
         Route::post('/collections', [CollectionRulesController::class, 'store'])->name('collections.store');
-        Route::put('/collections/{id}', [CollectionRulesController::class, 'update'])->name('collections.update');
-        Route::delete('/collections/{id}', [CollectionRulesController::class, 'destroy'])->name('collections.destroy');
+        Route::put('/collections/{collectionHandle}', [CollectionRulesController::class, 'update'])->name('collections.update');
+        Route::delete('/collections/{collectionHandle}', [CollectionRulesController::class, 'destroy'])->name('collections.destroy');
 
         // Sitewide notification
         Route::get('/sitewide', [SitewideController::class, 'index'])->name('sitewide.index');
@@ -31,6 +31,6 @@ Route::prefix('cp/beacon')
 
         // Notifications API (used by Vue fieldtype)
         Route::post('/notifications', [NotificationsController::class, 'store'])->name('notifications.store');
-        Route::put('/notifications/{id}', [NotificationsController::class, 'update'])->name('notifications.update');
-        Route::delete('/notifications/{id}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
+        Route::put('/notifications/{handle}', [NotificationsController::class, 'update'])->name('notifications.update');
+        Route::delete('/notifications/{handle}', [NotificationsController::class, 'destroy'])->name('notifications.destroy');
     });

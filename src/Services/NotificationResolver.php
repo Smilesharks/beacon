@@ -2,21 +2,28 @@
 
 namespace Smilesharks\Beacon\Services;
 
-use Smilesharks\Beacon\Models\BeaconCollectionRule;
-use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\NotificationData;
+use Smilesharks\Beacon\Repositories\CollectionRuleRepository;
+use Smilesharks\Beacon\Repositories\NotificationRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Statamic\Entries\Entry;
 
 class NotificationResolver
 {
+    public function __construct(
+        private readonly NotificationRepository $notifRepo,
+        private readonly CollectionRuleRepository $ruleRepo,
+    ) {}
+
     /**
      * Resolve the active notification for an entry, using three-level priority:
      * 1. Entry-level override (stored in the entry's beacon_notification field)
      * 2. Collection rule
      * 3. Sitewide fallback (handle = 'sitewide')
      */
-    public function resolve(Entry $entry): ?BeaconNotification
+    public function resolve(Entry $entry): ?NotificationData
     {
         $cacheKey = $this->cacheKey($entry);
         $cacheTtl = (int) config('beacon.cache_ttl', 300);
@@ -38,7 +45,7 @@ class NotificationResolver
         Cache::forever('beacon:cache_version', now()->timestamp);
     }
 
-    private function doResolve(Entry $entry): ?BeaconNotification
+    private function doResolve(Entry $entry): ?NotificationData
     {
         $matches = [];
 
@@ -63,7 +70,7 @@ class NotificationResolver
         return $entryLevel ?? $collectionLevel ?? $sitewide;
     }
 
-    private function resolveFromEntry(Entry $entry): ?BeaconNotification
+    private function resolveFromEntry(Entry $entry): ?NotificationData
     {
         $data = $entry->get('beacon_notification');
 
@@ -71,18 +78,18 @@ class NotificationResolver
             return null;
         }
 
-        $notification = new BeaconNotification();
-        $notification->handle = 'entry:'.$entry->id();
-        $notification->type = $data['type'] ?? 'announcement';
-        $notification->enabled = true;
-        $notification->position = $data['position'] ?? config('beacon.default_position', 'bottom-right');
-        $notification->trigger = $data['trigger'] ?? 'immediate';
-        $notification->trigger_value = $data['trigger_value'] ?? null;
-        $notification->frequency = $data['frequency'] ?? 'session';
-        $notification->active_from = isset($data['active_from']) ? \Carbon\Carbon::parse($data['active_from']) : null;
-        $notification->active_until = isset($data['active_until']) ? \Carbon\Carbon::parse($data['active_until']) : null;
-        $notification->payload = $data['payload'] ?? [];
-        $notification->exists = false;
+        $notification = new NotificationData([
+            'handle' => 'entry:'.$entry->id(),
+            'type' => $data['type'] ?? 'announcement',
+            'enabled' => true,
+            'position' => $data['position'] ?? config('beacon.default_position', 'bottom-right'),
+            'trigger' => $data['trigger'] ?? 'immediate',
+            'trigger_value' => $data['trigger_value'] ?? null,
+            'frequency' => $data['frequency'] ?? 'session',
+            'active_from' => $data['active_from'] ?? null,
+            'active_until' => $data['active_until'] ?? null,
+            'payload' => $data['payload'] ?? [],
+        ]);
 
         if (! $this->isWithinSchedule($notification)) {
             return null;
@@ -91,26 +98,21 @@ class NotificationResolver
         return $notification;
     }
 
-    private function resolveFromCollection(Entry $entry): ?BeaconNotification
+    private function resolveFromCollection(Entry $entry): ?NotificationData
     {
         $currentPath = request()->path();
-
-        $rules = BeaconCollectionRule::forCollection($entry->collection()->handle())
-            ->with('notification')
-            ->orderByDesc('priority')
-            ->get();
+        $rules = $this->ruleRepo->forCollection($entry->collection()->handle());
 
         foreach ($rules as $rule) {
-            if (! $rule->notification) {
+            if (empty($rule['notification'])) {
                 continue;
             }
 
-            // null url_pattern matches all pages; otherwise fnmatch against current path
-            if ($rule->url_pattern !== null && ! fnmatch(ltrim($rule->url_pattern, '/'), $currentPath)) {
+            if (($rule['url_pattern'] ?? null) !== null && ! fnmatch(ltrim($rule['url_pattern'], '/'), $currentPath)) {
                 continue;
             }
 
-            $notification = $rule->notification;
+            $notification = new NotificationData($rule['notification']);
 
             if (! $notification->enabled || ! $this->isWithinSchedule($notification)) {
                 continue;
@@ -122,14 +124,26 @@ class NotificationResolver
         return null;
     }
 
-    private function resolveSitewide(): ?BeaconNotification
+    private function resolveSitewide(): ?NotificationData
     {
-        return BeaconNotification::active()->where('handle', 'sitewide')->first();
+        $data = $this->notifRepo->findByHandle('sitewide');
+
+        if ($data === null) {
+            return null;
+        }
+
+        $notification = new NotificationData($data);
+
+        if (! $notification->enabled || ! $this->isWithinSchedule($notification)) {
+            return null;
+        }
+
+        return $notification;
     }
 
-    private function isWithinSchedule(BeaconNotification $notification): bool
+    private function isWithinSchedule(NotificationData $notification): bool
     {
-        $now = \Carbon\Carbon::now();
+        $now = Carbon::now();
 
         if ($notification->active_from && $notification->active_from->gt($now)) {
             return false;

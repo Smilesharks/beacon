@@ -70,9 +70,15 @@ class PermissionsTest extends TestCase
 
     private function actingAsUserWithPermissions(array $permissions): mixed
     {
-        $user = Mockery::mock(User::class);
+        $user = Mockery::mock(User::class)->makePartial();
         $user->shouldReceive('hasPermission')->andReturnUsing(fn ($perm) => in_array($perm, $permissions));
         $user->shouldReceive('isSuper')->andReturn(false);
+        $user->shouldReceive('offsetExists')->andReturn(false);
+        $user->shouldReceive('getAuthIdentifierName')->andReturn('id');
+        $user->shouldReceive('getAuthIdentifier')->andReturn(1);
+        $user->shouldReceive('getAuthPassword')->andReturn('');
+        $user->shouldReceive('getRememberToken')->andReturn('');
+        $user->shouldReceive('getRememberTokenName')->andReturn('remember_token');
 
         UserFacade::shouldReceive('current')->andReturn($user);
 
@@ -83,9 +89,15 @@ class PermissionsTest extends TestCase
 
     private function actingAsSuperAdmin(): void
     {
-        $user = Mockery::mock(User::class);
+        $user = Mockery::mock(User::class)->makePartial();
         $user->shouldReceive('isSuper')->andReturn(true);
         $user->shouldReceive('hasPermission')->andReturn(true);
+        $user->shouldReceive('offsetExists')->andReturn(false);
+        $user->shouldReceive('getAuthIdentifierName')->andReturn('id');
+        $user->shouldReceive('getAuthIdentifier')->andReturn(1);
+        $user->shouldReceive('getAuthPassword')->andReturn('');
+        $user->shouldReceive('getRememberToken')->andReturn('');
+        $user->shouldReceive('getRememberTokenName')->andReturn('remember_token');
 
         UserFacade::shouldReceive('current')->andReturn($user);
 

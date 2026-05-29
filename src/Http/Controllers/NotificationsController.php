@@ -2,8 +2,7 @@
 
 namespace Smilesharks\Beacon\Http\Controllers;
 
-use Smilesharks\Beacon\Models\BeaconNotification;
-use Illuminate\Database\QueryException;
+use Smilesharks\Beacon\Repositories\NotificationRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 class NotificationsController extends Controller
 {
-    public function __construct()
+    public function __construct(private readonly NotificationRepository $repo)
     {
         $this->middleware('can:edit beacon');
     }
@@ -22,35 +21,42 @@ class NotificationsController extends Controller
         $validated = $this->validateNotification($request);
 
         if (empty($validated['handle'])) {
-            $validated['handle'] = $validated['type'].'-'.Str::ulid();
+            $validated['handle'] = $validated['type'].'-'.strtolower(Str::ulid());
+        } else {
+            $validated['handle'] = strtolower(trim($validated['handle']));
         }
 
-        try {
-            $notification = BeaconNotification::create($validated);
-        } catch (QueryException $e) {
-            if (str_contains($e->getMessage(), 'UNIQUE') || str_contains($e->getMessage(), 'unique')) {
-                throw ValidationException::withMessages(['handle' => 'A notification with this handle already exists.']);
-            }
-            throw $e;
+        if ($this->repo->findByHandle($validated['handle']) !== null) {
+            throw ValidationException::withMessages(['handle' => 'A notification with this handle already exists.']);
         }
+
+        $notification = $this->repo->save($validated);
 
         return response()->json($notification, 201);
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, string $handle): JsonResponse
     {
-        $notification = BeaconNotification::findOrFail($id);
+        $existing = $this->repo->findByHandle($handle);
+
+        if ($existing === null) {
+            abort(404);
+        }
 
         $validated = $this->validateNotification($request);
-        $notification->update($validated);
+        $validated['enabled'] = (bool) ($validated['enabled'] ?? false);
+        $notification = $this->repo->save(array_merge($existing, $validated, ['handle' => $handle]));
 
-        return response()->json($notification->fresh());
+        return response()->json($notification);
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $handle): JsonResponse
     {
-        $notification = BeaconNotification::findOrFail($id);
-        $notification->delete();
+        if ($this->repo->findByHandle($handle) === null) {
+            abort(404);
+        }
+
+        $this->repo->delete($handle);
 
         return response()->json(null, 204);
     }
@@ -58,7 +64,7 @@ class NotificationsController extends Controller
     private function validateNotification(Request $request): array
     {
         return $request->validate([
-            'handle' => ['nullable', 'string', 'max:255'],
+            'handle' => ['nullable', 'string', 'max:64', 'regex:/^[a-z][a-z0-9_-]*$/i'],
             'type' => ['required', 'in:announcement,discount,cta,consent'],
             'enabled' => ['boolean'],
             'position' => ['required', 'in:top-bar,bottom-bar,bottom-right,bottom-left,modal-center'],
@@ -66,7 +72,7 @@ class NotificationsController extends Controller
             'trigger_value' => ['nullable', 'string'],
             'frequency' => ['required', 'in:always,session,daily,permanent,dismissed'],
             'active_from' => ['nullable', 'date'],
-            'active_until' => ['nullable', 'date'],
+            'active_until' => ['nullable', 'date', 'after_or_equal:active_from'],
             'payload' => ['array'],
             // URL fields: only http/https/relative URLs allowed — blocks javascript: and data: schemes
             'payload.cta_url' => ['nullable', 'string', 'regex:/^(https?:\/\/|\/|#)/i'],

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Storage backend replaced: Eloquent models and database migrations removed. Notifications and collection rules now persist as JSON under `storage/app/beacon/` (configurable via `beacon.storage_path`). No `php artisan migrate` step is required on new installs.
+
+### Removed
+
+- `BeaconNotification` and `BeaconCollectionRule` Eloquent models
+- Database migrations `create_beacon_notifications_table` and `create_beacon_collection_rules_table`
+- `BeaconNotificationObserver` (cache-busting now handled directly in `NotificationRepository` and `CollectionRuleRepository`)
+- `notification_id` integer foreign key — replaced by `notification_handle` string reference on collection rules
+
 ## [1.0.0] - 2026-05-29
 
 ### Added

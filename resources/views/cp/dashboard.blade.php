@@ -31,13 +31,13 @@
 
     <div class="card p-4">
         <h3 class="font-bold mb-2">{{ __('beacon::dashboard.collection_rules_heading') }}</h3>
-        @if ($collectionRules->isNotEmpty())
+        @if (count($collectionRules) > 0)
             <ul class="divide-y">
                 @foreach ($collectionRules as $rule)
                     <li class="py-2 flex items-center justify-between">
-                        <span class="font-mono text-sm">{{ $rule->collection_handle }}</span>
+                        <span class="font-mono text-sm">{{ $rule['collection_handle'] }}</span>
                         <span class="text-sm text-gray-500">
-                            {{ $rule->notification?->type ? __('beacon::fieldtype.type_' . $rule->notification->type) : '—' }}
+                            {{ isset($rule['notification']['type']) ? __('beacon::fieldtype.type_' . $rule['notification']['type']) : '—' }}
                         </span>
                     </li>
                 @endforeach

@@ -2,14 +2,15 @@
 
 namespace Smilesharks\Beacon\Http\Controllers;
 
-use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\NotificationData;
+use Smilesharks\Beacon\Repositories\NotificationRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class SitewideController extends Controller
 {
-    public function __construct()
+    public function __construct(private readonly NotificationRepository $repo)
     {
         $this->middleware('can:view beacon')->only('index');
         $this->middleware('can:edit beacon')->only('update');
@@ -17,14 +18,14 @@ class SitewideController extends Controller
 
     public function index()
     {
-        $notification = BeaconNotification::firstOrNew(['handle' => 'sitewide'], [
+        $notification = new NotificationData($this->repo->firstOrNew('sitewide', [
             'type' => 'announcement',
             'enabled' => false,
             'position' => 'bottom-right',
             'trigger' => 'immediate',
             'frequency' => 'session',
             'payload' => [],
-        ]);
+        ]));
 
         return view('beacon::cp.sitewide', [
             'title' => __('beacon::nav.sitewide'),
@@ -53,10 +54,7 @@ class SitewideController extends Controller
         $validated['enabled'] = (bool) ($validated['enabled'] ?? false);
         $validated['handle'] = 'sitewide';
 
-        BeaconNotification::updateOrCreate(
-            ['handle' => 'sitewide'],
-            $validated
-        );
+        $this->repo->save($validated);
 
         return redirect()->route('beacon.sitewide.index')
             ->with('success', __('beacon::settings.saved'));

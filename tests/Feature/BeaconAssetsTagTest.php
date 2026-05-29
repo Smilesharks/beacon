@@ -2,7 +2,7 @@
 
 namespace Smilesharks\Beacon\Tests\Feature;
 
-use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\NotificationData;
 use Smilesharks\Beacon\Services\NotificationResolver;
 use Smilesharks\Beacon\Tags\BeaconAssetsTag;
 use Smilesharks\Beacon\Tests\TestCase;
@@ -12,7 +12,7 @@ use Statamic\Tags\Context;
 
 class BeaconAssetsTagTest extends TestCase
 {
-    private function makeTag(?BeaconNotification $resolvedNotification): BeaconAssetsTag
+    private function makeTag(?NotificationData $resolvedNotification): BeaconAssetsTag
     {
         $resolver = Mockery::mock(NotificationResolver::class);
         $resolver->shouldReceive('resolve')->andReturn($resolvedNotification);
@@ -28,6 +28,19 @@ class BeaconAssetsTagTest extends TestCase
         return $tag;
     }
 
+    private function makeNotification(array $data = []): NotificationData
+    {
+        return new NotificationData(array_merge([
+            'handle' => 'test',
+            'type' => 'announcement',
+            'position' => 'bottom-right',
+            'trigger' => 'immediate',
+            'trigger_value' => null,
+            'frequency' => 'session',
+            'payload' => [],
+        ], $data));
+    }
+
     public function test_outputs_empty_string_when_no_active_notification(): void
     {
         $tag = $this->makeTag(null);
@@ -39,14 +52,7 @@ class BeaconAssetsTagTest extends TestCase
 
     public function test_outputs_script_tag_when_notification_is_active(): void
     {
-        $notification = new BeaconNotification();
-        $notification->handle = 'test';
-        $notification->type = 'announcement';
-        $notification->position = 'bottom-right';
-        $notification->trigger = 'immediate';
-        $notification->trigger_value = null;
-        $notification->frequency = 'session';
-        $notification->payload = ['message' => 'Hello'];
+        $notification = $this->makeNotification(['payload' => ['message' => 'Hello']]);
 
         $tag = $this->makeTag($notification);
         $output = $tag->assets();
@@ -57,14 +63,7 @@ class BeaconAssetsTagTest extends TestCase
 
     public function test_outputs_link_tag_when_notification_is_active(): void
     {
-        $notification = new BeaconNotification();
-        $notification->handle = 'test';
-        $notification->type = 'announcement';
-        $notification->position = 'bottom-right';
-        $notification->trigger = 'immediate';
-        $notification->trigger_value = null;
-        $notification->frequency = 'session';
-        $notification->payload = ['message' => 'Hello'];
+        $notification = $this->makeNotification(['payload' => ['message' => 'Hello']]);
 
         $tag = $this->makeTag($notification);
         $output = $tag->assets();
@@ -75,21 +74,17 @@ class BeaconAssetsTagTest extends TestCase
 
     public function test_outputs_valid_json_config_block(): void
     {
-        $notification = new BeaconNotification();
-        $notification->handle = 'test-discount';
-        $notification->type = 'discount';
-        $notification->position = 'bottom-right';
-        $notification->trigger = 'immediate';
-        $notification->trigger_value = null;
-        $notification->frequency = 'session';
-        $notification->payload = ['message' => 'Save 20%', 'code' => 'SAVE20'];
+        $notification = $this->makeNotification([
+            'handle' => 'test-discount',
+            'type' => 'discount',
+            'payload' => ['message' => 'Save 20%', 'code' => 'SAVE20'],
+        ]);
 
         $tag = $this->makeTag($notification);
         $output = $tag->assets();
 
         $this->assertStringContainsString('id="beacon-config"', $output);
 
-        // Extract and parse the JSON
         preg_match('/<script type="application\/json" id="beacon-config">(.+?)<\/script>/s', $output, $matches);
         $this->assertNotEmpty($matches[1] ?? '');
         $config = json_decode($matches[1], true);
@@ -99,14 +94,13 @@ class BeaconAssetsTagTest extends TestCase
 
     public function test_json_config_contains_correct_keys_for_announcement_type(): void
     {
-        $notification = new BeaconNotification();
-        $notification->handle = 'announcement-1';
-        $notification->type = 'announcement';
-        $notification->position = 'top-bar';
-        $notification->trigger = 'immediate';
-        $notification->trigger_value = null;
-        $notification->frequency = 'always';
-        $notification->payload = ['message' => 'Big news!', 'cta_label' => 'Read more', 'cta_url' => 'https://example.com'];
+        $notification = $this->makeNotification([
+            'handle' => 'announcement-1',
+            'type' => 'announcement',
+            'position' => 'top-bar',
+            'frequency' => 'always',
+            'payload' => ['message' => 'Big news!', 'cta_label' => 'Read more', 'cta_url' => 'https://example.com'],
+        ]);
 
         $tag = $this->makeTag($notification);
         $output = $tag->assets();

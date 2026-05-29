@@ -3,14 +3,29 @@
 namespace Smilesharks\Beacon\Tests;
 
 use Smilesharks\Beacon\ServiceProvider;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Statamic\Providers\StatamicServiceProvider;
 use Statamic\Statamic;
 
 abstract class TestCase extends OrchestraTestCase
 {
-    use RefreshDatabase;
+    protected string $tmpDir;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->tmpDir = sys_get_temp_dir().'/beacon-test-'.uniqid();
+        File::makeDirectory($this->tmpDir, 0755, true, true);
+        config(['beacon.storage_path' => $this->tmpDir]);
+    }
+
+    protected function tearDown(): void
+    {
+        File::deleteDirectory($this->tmpDir);
+        parent::tearDown();
+    }
 
     protected function getPackageProviders($app): array
     {
@@ -29,12 +44,6 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('database.default', 'testing');
-        $app['config']->set('database.connections.testing', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
         $app['config']->set('beacon.dev_mode_logging', false);
         $app['config']->set('beacon.cache_ttl', 0);
     }

@@ -4,8 +4,8 @@ namespace Smilesharks\Beacon;
 
 use Smilesharks\Beacon\Fieldtypes\BeaconNotificationFieldtype;
 use Smilesharks\Beacon\Http\Middleware\BeaconTagPresenceMiddleware;
-use Smilesharks\Beacon\Models\BeaconNotification;
-use Smilesharks\Beacon\Observers\BeaconNotificationObserver;
+use Smilesharks\Beacon\Repositories\CollectionRuleRepository;
+use Smilesharks\Beacon\Repositories\NotificationRepository;
 use Smilesharks\Beacon\Services\NotificationResolver;
 use Smilesharks\Beacon\Tags\BeaconAssetsTag;
 use Illuminate\Support\Facades\File;
@@ -55,8 +55,6 @@ class ServiceProvider extends AddonServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'beacon');
 
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'beacon');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/cp.php');
@@ -64,8 +62,6 @@ class ServiceProvider extends AddonServiceProvider
         $this->registerPermissions();
 
         $this->loadPersistedSettings();
-
-        BeaconNotification::observe(BeaconNotificationObserver::class);
 
         $this->registerNavigation();
     }
@@ -127,6 +123,8 @@ class ServiceProvider extends AddonServiceProvider
     {
         parent::register();
 
+        $this->app->singleton(NotificationRepository::class);
+        $this->app->singleton(CollectionRuleRepository::class);
         $this->app->singleton(NotificationResolver::class);
     }
 }

@@ -14,23 +14,23 @@
             editing: null,
             saving: false,
             deleting: false,
-            form: { notification_id: null, url_pattern: '', enabled: true, priority: 0 },
-            notifications: @js($notifications->map(fn($n) => ['id' => $n->id, 'label' => $n->handle . ' (' . $n->type . ')'])),
+            form: { notification_handle: null, url_pattern: '', enabled: true, priority: 0 },
+            notifications: @js(collect($notifications)->map(fn($n) => ['handle' => $n['handle'], 'label' => $n['handle'] . ' (' . $n['type'] . ')'])->values()),
 
             open(collection, rule) {
                 this.editing = collection;
-                this.form.notification_id = rule ? rule.notification_id : null;
+                this.form.notification_handle = rule ? rule.notification_handle : null;
                 this.form.url_pattern = rule ? (rule.url_pattern ?? '') : '';
                 this.form.enabled = rule ? rule.enabled : true;
                 this.form.priority = rule ? rule.priority : 0;
             },
 
-            async save(collection, ruleId) {
+            async save(collection, collectionHandle) {
                 this.saving = true;
-                const url = ruleId
-                    ? '{{ route('beacon.collections.update', ['id' => '__ID__']) }}'.replace('__ID__', ruleId)
+                const url = collectionHandle
+                    ? '{{ route('beacon.collections.update', ['collectionHandle' => '__ID__']) }}'.replace('__ID__', collectionHandle)
                     : '{{ route('beacon.collections.store') }}';
-                const method = ruleId ? 'PUT' : 'POST';
+                const method = collectionHandle ? 'PUT' : 'POST';
                 const body = { ...this.form, collection_handle: collection };
                 try {
                     const res = await fetch(url, {
@@ -42,11 +42,11 @@
                 } finally { this.saving = false; }
             },
 
-            async remove(ruleId) {
+            async remove(collectionHandle) {
                 if (!confirm('{{ __('beacon::collections.confirm_delete') }}')) return;
                 this.deleting = true;
                 try {
-                    await fetch('{{ route('beacon.collections.destroy', ['id' => '__ID__']) }}'.replace('__ID__', ruleId), {
+                    await fetch('{{ route('beacon.collections.destroy', ['collectionHandle' => '__ID__']) }}'.replace('__ID__', collectionHandle), {
                         method: 'DELETE',
                         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content }
                     });
@@ -68,23 +68,29 @@
             <tbody>
                 @foreach ($collections as $collection)
                     @php
-                        $rule = $rules->get($collection->handle());
-                        $ruleJson = $rule ? json_encode(['id' => $rule->id, 'notification_id' => $rule->notification_id, 'url_pattern' => $rule->url_pattern, 'enabled' => $rule->enabled, 'priority' => $rule->priority]) : 'null';
+                        $rule = $rules[$collection->handle()] ?? null;
+                        $ruleJson = $rule ? json_encode([
+                            'collection_handle' => $rule['collection_handle'],
+                            'notification_handle' => $rule['notification_handle'] ?? null,
+                            'url_pattern' => $rule['url_pattern'] ?? null,
+                            'enabled' => $rule['enabled'] ?? false,
+                            'priority' => $rule['priority'] ?? 0,
+                        ]) : 'null';
                     @endphp
                     <tr>
                         <td class="font-medium">{{ $collection->title() }}</td>
                         <td>
-                            @if ($rule && $rule->notification)
-                                {{ __('beacon::fieldtype.type_' . $rule->notification->type) }}
+                            @if ($rule && !empty($rule['notification']))
+                                {{ __('beacon::fieldtype.type_' . $rule['notification']['type']) }}
                             @else
                                 <span class="text-gray-400">—</span>
                             @endif
                         </td>
                         <td>
-                            <span class="text-sm text-gray-500">{{ $rule->url_pattern ?? '—' }}</span>
+                            <span class="text-sm text-gray-500">{{ $rule ? ($rule['url_pattern'] ?? '—') : '—' }}</span>
                         </td>
                         <td>
-                            @if ($rule && $rule->enabled)
+                            @if ($rule && !empty($rule['enabled']))
                                 <span class="badge-sm bg-green-100 text-green-800">{{ __('beacon::dashboard.status_active') }}</span>
                             @else
                                 <span class="badge-sm bg-gray-100 text-gray-600">{{ __('beacon::dashboard.status_inactive') }}</span>
@@ -103,7 +109,7 @@
                                     <button
                                         type="button"
                                         class="btn btn-sm text-red-600"
-                                        @click="remove({{ $rule->id }})"
+                                        @click="remove({{ json_encode($rule['collection_handle']) }})"
                                         :disabled="deleting"
                                     >
                                         {{ __('beacon::collections.remove') }}
@@ -119,10 +125,10 @@
                             <div class="grid grid-cols-2 gap-4 max-w-2xl">
                                 <div>
                                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1">{{ __('beacon::collections.notification') }}</label>
-                                    <select x-model="form.notification_id" class="input-text w-full">
+                                    <select x-model="form.notification_handle" class="input-text w-full">
                                         <option value="">— {{ __('beacon::collections.no_notification') }} —</option>
-                                        <template x-for="n in notifications" :key="n.id">
-                                            <option :value="n.id" x-text="n.label"></option>
+                                        <template x-for="n in notifications" :key="n.handle">
+                                            <option :value="n.handle" x-text="n.label"></option>
                                         </template>
                                     </select>
                                 </div>
@@ -144,7 +150,7 @@
                                     type="button"
                                     class="btn-primary btn-sm"
                                     :disabled="saving"
-                                    @click="save('{{ $collection->handle() }}', {{ $rule?->id ?? 'null' }})"
+                                    @click="save('{{ $collection->handle() }}', {{ $rule ? json_encode($rule['collection_handle']) : 'null' }})"
                                 >
                                     <span x-show="!saving">{{ __('beacon::settings.save') }}</span>
                                     <span x-show="saving">{{ __('beacon::collections.saving') }}</span>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Arielcerda\Beacon\Fieldtypes;
+namespace Smilesharks\Beacon\Fieldtypes;
 
 use Illuminate\Support\Facades\Log;
 use Statamic\Fields\Fieldtype;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Arielcerda\Beacon\Tests\Feature;
+namespace Smilesharks\Beacon\Tests\Feature;
 
-use Arielcerda\Beacon\Fieldtypes\BeaconNotificationFieldtype;
-use Arielcerda\Beacon\Tests\TestCase;
+use Smilesharks\Beacon\Fieldtypes\BeaconNotificationFieldtype;
+use Smilesharks\Beacon\Tests\TestCase;
 
 class BeaconNotificationFieldtypeTest extends TestCase
 {

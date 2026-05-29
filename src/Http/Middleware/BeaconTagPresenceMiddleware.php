@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Http\Middleware;
+namespace Smilesharks\Beacon\Http\Middleware;
 
-use Arielcerda\Beacon\Services\NotificationResolver;
+use Smilesharks\Beacon\Services\NotificationResolver;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

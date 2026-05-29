@@ -1,11 +1,11 @@
 <?php
 
-namespace Arielcerda\Beacon\Tests\Unit;
+namespace Smilesharks\Beacon\Tests\Unit;
 
-use Arielcerda\Beacon\Models\BeaconCollectionRule;
-use Arielcerda\Beacon\Models\BeaconNotification;
-use Arielcerda\Beacon\Services\NotificationResolver;
-use Arielcerda\Beacon\Tests\TestCase;
+use Smilesharks\Beacon\Models\BeaconCollectionRule;
+use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Services\NotificationResolver;
+use Smilesharks\Beacon\Tests\TestCase;
 use Carbon\Carbon;
 use Mockery;
 use Statamic\Contracts\Entries\Collection;

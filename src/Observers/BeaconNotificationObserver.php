@@ -1,9 +1,9 @@
 <?php
 
-namespace Arielcerda\Beacon\Observers;
+namespace Smilesharks\Beacon\Observers;
 
-use Arielcerda\Beacon\Models\BeaconNotification;
-use Arielcerda\Beacon\Services\NotificationResolver;
+use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Services\NotificationResolver;
 
 class BeaconNotificationObserver
 {

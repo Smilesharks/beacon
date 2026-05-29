@@ -1,10 +1,10 @@
 <?php
 
-use Arielcerda\Beacon\Http\Controllers\CollectionRulesController;
-use Arielcerda\Beacon\Http\Controllers\DashboardController;
-use Arielcerda\Beacon\Http\Controllers\NotificationsController;
-use Arielcerda\Beacon\Http\Controllers\SettingsController;
-use Arielcerda\Beacon\Http\Controllers\SitewideController;
+use Smilesharks\Beacon\Http\Controllers\CollectionRulesController;
+use Smilesharks\Beacon\Http\Controllers\DashboardController;
+use Smilesharks\Beacon\Http\Controllers\NotificationsController;
+use Smilesharks\Beacon\Http\Controllers\SettingsController;
+use Smilesharks\Beacon\Http\Controllers\SitewideController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('cp/beacon')

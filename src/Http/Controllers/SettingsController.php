@@ -1,6 +1,6 @@
 <?php
 
-namespace Arielcerda\Beacon\Http\Controllers;
+namespace Smilesharks\Beacon\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

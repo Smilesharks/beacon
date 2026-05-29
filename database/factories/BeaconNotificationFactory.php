@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Database\Factories;
+namespace Smilesharks\Beacon\Database\Factories;
 
-use Arielcerda\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Models\BeaconNotification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

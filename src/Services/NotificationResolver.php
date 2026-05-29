@@ -1,9 +1,9 @@
 <?php
 
-namespace Arielcerda\Beacon\Services;
+namespace Smilesharks\Beacon\Services;
 
-use Arielcerda\Beacon\Models\BeaconCollectionRule;
-use Arielcerda\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Models\BeaconCollectionRule;
+use Smilesharks\Beacon\Models\BeaconNotification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Statamic\Entries\Entry;

@@ -11,7 +11,7 @@ Attach contextual notifications to any Statamic entry without code. Announcement
 ## Installation
 
 ```bash
-composer require arielcerda/beacon
+composer require smilesharks/beacon
 php artisan vendor:publish --tag=beacon-assets
 php artisan migrate
 ```

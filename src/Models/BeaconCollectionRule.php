@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Models;
+namespace Smilesharks\Beacon\Models;
 
-use Arielcerda\Beacon\Database\Factories\BeaconCollectionRuleFactory;
+use Smilesharks\Beacon\Database\Factories\BeaconCollectionRuleFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

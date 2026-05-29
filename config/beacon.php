@@ -14,6 +14,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default Display Position
+    |--------------------------------------------------------------------------
+    | Fallback position when none is specified. Valid values:
+    | top-bar, bottom-bar, bottom-right, bottom-left, modal-center
+    */
+    'default_position' => 'bottom-right',
+
+    /*
+    |--------------------------------------------------------------------------
     | Dev Mode Logging
     |--------------------------------------------------------------------------
     | When true, logs a debug-level warning to Statamic's log when multiple

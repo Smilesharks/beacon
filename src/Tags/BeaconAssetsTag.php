@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Tags;
+namespace Smilesharks\Beacon\Tags;
 
-use Arielcerda\Beacon\Services\NotificationResolver;
+use Smilesharks\Beacon\Services\NotificationResolver;
 use Illuminate\Support\Facades\Log;
 use Statamic\Tags\Tags;
 use Statamic\View\Cascade;

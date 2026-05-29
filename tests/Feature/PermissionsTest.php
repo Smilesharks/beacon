@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Tests\Feature;
+namespace Smilesharks\Beacon\Tests\Feature;
 
-use Arielcerda\Beacon\Tests\TestCase;
+use Smilesharks\Beacon\Tests\TestCase;
 use Mockery;
 use Statamic\Auth\User;
 use Statamic\Facades\User as UserFacade;

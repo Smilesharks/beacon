@@ -1,9 +1,9 @@
 <?php
 
-namespace Arielcerda\Beacon\Tests\Unit;
+namespace Smilesharks\Beacon\Tests\Unit;
 
-use Arielcerda\Beacon\Models\BeaconNotification;
-use Arielcerda\Beacon\Tests\TestCase;
+use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Tests\TestCase;
 use Carbon\Carbon;
 
 class BeaconNotificationModelTest extends TestCase

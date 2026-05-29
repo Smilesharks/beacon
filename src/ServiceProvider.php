@@ -1,13 +1,13 @@
 <?php
 
-namespace Arielcerda\Beacon;
+namespace Smilesharks\Beacon;
 
-use Arielcerda\Beacon\Fieldtypes\BeaconNotificationFieldtype;
-use Arielcerda\Beacon\Http\Middleware\BeaconTagPresenceMiddleware;
-use Arielcerda\Beacon\Models\BeaconNotification;
-use Arielcerda\Beacon\Observers\BeaconNotificationObserver;
-use Arielcerda\Beacon\Services\NotificationResolver;
-use Arielcerda\Beacon\Tags\BeaconAssetsTag;
+use Smilesharks\Beacon\Fieldtypes\BeaconNotificationFieldtype;
+use Smilesharks\Beacon\Http\Middleware\BeaconTagPresenceMiddleware;
+use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Observers\BeaconNotificationObserver;
+use Smilesharks\Beacon\Services\NotificationResolver;
+use Smilesharks\Beacon\Tags\BeaconAssetsTag;
 use Illuminate\Support\Facades\File;
 use Statamic\Facades\CP\Nav;
 use Statamic\Facades\Permission;

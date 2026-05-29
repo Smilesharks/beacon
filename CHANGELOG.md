@@ -39,5 +39,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPStan level 5+, PHP CS Fixer (Laravel preset)
 - Test suite covering PHP 8.1, 8.2, 8.3 and Statamic v4/v5
 
-[Unreleased]: https://github.com/arielcerda/beacon/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/arielcerda/beacon/releases/tag/v1.0.0
+[Unreleased]: https://github.com/smilesharks/beacon/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/smilesharks/beacon/releases/tag/v1.0.0

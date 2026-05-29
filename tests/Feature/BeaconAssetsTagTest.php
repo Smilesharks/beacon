@@ -1,11 +1,11 @@
 <?php
 
-namespace Arielcerda\Beacon\Tests\Feature;
+namespace Smilesharks\Beacon\Tests\Feature;
 
-use Arielcerda\Beacon\Models\BeaconNotification;
-use Arielcerda\Beacon\Services\NotificationResolver;
-use Arielcerda\Beacon\Tags\BeaconAssetsTag;
-use Arielcerda\Beacon\Tests\TestCase;
+use Smilesharks\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Services\NotificationResolver;
+use Smilesharks\Beacon\Tags\BeaconAssetsTag;
+use Smilesharks\Beacon\Tests\TestCase;
 use Mockery;
 use Statamic\Entries\Entry;
 use Statamic\Tags\Context;

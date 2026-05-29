@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Tests;
+namespace Smilesharks\Beacon\Tests;
 
-use Arielcerda\Beacon\ServiceProvider;
+use Smilesharks\Beacon\ServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Statamic\Providers\StatamicServiceProvider;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Http\Controllers;
+namespace Smilesharks\Beacon\Http\Controllers;
 
-use Arielcerda\Beacon\Models\BeaconNotification;
+use Smilesharks\Beacon\Models\BeaconNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

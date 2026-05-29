@@ -1,14 +1,14 @@
 {
-    "name": "arielcerda/beacon",
+    "name": "smilesharks/beacon",
     "version": "1.0.0",
     "description": "Attach contextual notifications to any Statamic entry without code.",
     "keywords": ["statamic", "notifications", "banners", "toasts", "announcements"],
-    "homepage": "https://github.com/arielcerda/beacon",
+    "homepage": "https://github.com/smilesharks/beacon",
     "license": "proprietary",
     "type": "statamic-addon",
     "authors": [
         {
-            "name": "Ariel Cerda",
+            "name": "Smilesharks",
             "email": "arielcerdahernandez@gmail.com"
         }
     ],
@@ -25,13 +25,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Arielcerda\\Beacon\\": "src/"
+            "Smilesharks\\Beacon\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Arielcerda\\Beacon\\Tests\\": "tests/",
-            "Arielcerda\\Beacon\\Database\\Factories\\": "database/factories/"
+            "Smilesharks\\Beacon\\Tests\\": "tests/",
+            "Smilesharks\\Beacon\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {
@@ -41,7 +41,7 @@
         },
         "laravel": {
             "providers": [
-                "Arielcerda\\Beacon\\ServiceProvider"
+                "Smilesharks\\Beacon\\ServiceProvider"
             ]
         }
     },

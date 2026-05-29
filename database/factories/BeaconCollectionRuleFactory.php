@@ -1,8 +1,8 @@
 <?php
 
-namespace Arielcerda\Beacon\Database\Factories;
+namespace Smilesharks\Beacon\Database\Factories;
 
-use Arielcerda\Beacon\Models\BeaconCollectionRule;
+use Smilesharks\Beacon\Models\BeaconCollectionRule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BeaconCollectionRuleFactory extends Factory

@@ -8,7 +8,7 @@ use Smilesharks\Beacon\Http\Controllers\SitewideController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('cp/beacon')
-    ->name('beacon.')
+    ->name('statamic.cp.beacon.')
     ->middleware(['statamic.cp', 'auth'])
     ->group(function () {
 

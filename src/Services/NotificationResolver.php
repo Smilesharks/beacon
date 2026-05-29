@@ -100,8 +100,14 @@ class NotificationResolver
 
     private function resolveFromCollection(Entry $entry): ?NotificationData
     {
+        $collection = $entry->collection();
+
+        if ($collection === null) {
+            return null;
+        }
+
         $currentPath = request()->path();
-        $rules = $this->ruleRepo->forCollection($entry->collection()->handle());
+        $rules = $this->ruleRepo->forCollection($collection->handle());
 
         foreach ($rules as $rule) {
             if (empty($rule['notification'])) {
@@ -165,6 +171,6 @@ class NotificationResolver
     {
         $version = Cache::get('beacon:cache_version', 0);
 
-        return 'beacon:resolver:'.md5($entry->id().($entry->collection()->handle() ?? '').$version);
+        return 'beacon:resolver:'.md5($entry->id().(($entry->collection()?->handle()) ?? '').$version);
     }
 }

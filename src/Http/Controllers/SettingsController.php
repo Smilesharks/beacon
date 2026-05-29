@@ -48,7 +48,7 @@ class SettingsController extends Controller
             'beacon.dev_mode_logging' => $settings['dev_mode_logging'],
         ]);
 
-        return redirect()->route('beacon.settings')
+        return redirect()->route('statamic.cp.beacon.settings')
             ->with('success', __('beacon::settings.saved'));
     }
 

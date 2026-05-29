@@ -56,7 +56,7 @@ class SitewideController extends Controller
 
         $this->repo->save($validated);
 
-        return redirect()->route('beacon.sitewide.index')
+        return redirect()->route('statamic.cp.beacon.sitewide.index')
             ->with('success', __('beacon::settings.saved'));
     }
 }

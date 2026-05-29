@@ -25,7 +25,7 @@
             <span class="text-sm text-gray-500">{{ __('beacon::dashboard.sitewide_none') }}</span>
         @endif
         <div class="mt-2">
-            <a href="{{ route('beacon.sitewide.index') }}" class="btn btn-sm">{{ __('beacon::dashboard.edit') }}</a>
+            <a href="{{ route('statamic.cp.beacon.sitewide.index') }}" class="btn btn-sm">{{ __('beacon::dashboard.edit') }}</a>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
             <p class="text-sm text-gray-500">{{ __('beacon::dashboard.no_collection_rules') }}</p>
         @endif
         <div class="mt-2">
-            <a href="{{ route('beacon.collections.index') }}" class="btn btn-sm">{{ __('beacon::dashboard.manage_rules') }}</a>
+            <a href="{{ route('statamic.cp.beacon.collections.index') }}" class="btn btn-sm">{{ __('beacon::dashboard.manage_rules') }}</a>
         </div>
     </div>
 @endsection

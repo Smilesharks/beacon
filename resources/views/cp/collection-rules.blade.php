@@ -28,8 +28,8 @@
             async save(collection, collectionHandle) {
                 this.saving = true;
                 const url = collectionHandle
-                    ? '{{ route('beacon.collections.update', ['collectionHandle' => '__ID__']) }}'.replace('__ID__', collectionHandle)
-                    : '{{ route('beacon.collections.store') }}';
+                    ? '{{ route('statamic.cp.beacon.collections.update', ['collectionHandle' => '__ID__']) }}'.replace('__ID__', collectionHandle)
+                    : '{{ route('statamic.cp.beacon.collections.store') }}';
                 const method = collectionHandle ? 'PUT' : 'POST';
                 const body = { ...this.form, collection_handle: collection };
                 try {
@@ -46,7 +46,7 @@
                 if (!confirm('{{ __('beacon::collections.confirm_delete') }}')) return;
                 this.deleting = true;
                 try {
-                    await fetch('{{ route('beacon.collections.destroy', ['collectionHandle' => '__ID__']) }}'.replace('__ID__', collectionHandle), {
+                    await fetch('{{ route('statamic.cp.beacon.collections.destroy', ['collectionHandle' => '__ID__']) }}'.replace('__ID__', collectionHandle), {
                         method: 'DELETE',
                         headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content }
                     });

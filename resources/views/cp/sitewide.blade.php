@@ -16,7 +16,7 @@
 
     <form
         method="POST"
-        action="{{ route('beacon.sitewide.update') }}"
+        action="{{ route('statamic.cp.beacon.sitewide.update') }}"
         class="card p-6"
         x-data="{
             type: '{{ old('type', $notification->type ?? 'announcement') }}',

@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('beacon.settings.update') }}" class="card p-6">
+    <form method="POST" action="{{ route('statamic.cp.beacon.settings.update') }}" class="card p-6">
         @csrf
 
         <div class="mb-4">

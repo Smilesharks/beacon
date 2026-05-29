@@ -30,15 +30,11 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     protected $vite = [
-        'hotFile' => __DIR__.'/../public/vendor/beacon/hot',
+        'hotFile' => __DIR__.'/../public/vendor/beacon/build/hot',
         'publicDirectory' => 'public/vendor/beacon',
         'input' => [
             'resources/js/cp.js',
         ],
-    ];
-
-    protected $scripts = [
-        __DIR__.'/../public/vendor/beacon/cp.js',
     ];
 
     public function bootAddon(): void
@@ -54,7 +50,7 @@ class ServiceProvider extends AddonServiceProvider
         ], 'beacon-views');
 
         $this->publishes([
-            __DIR__.'/../public/vendor/beacon' => public_path('vendor/beacon'),
+            __DIR__.'/../public/vendor/beacon/build' => public_path('vendor/beacon/build'),
         ], 'beacon-assets');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'beacon');

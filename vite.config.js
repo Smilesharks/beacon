@@ -10,6 +10,8 @@ export default defineConfig({
         process.env.ANALYZE && visualizer({ open: true, filename: 'dist/stats.html' }),
     ].filter(Boolean),
 
+    publicDir: false,
+
     build: {
         rollupOptions: {
             input: {
@@ -26,7 +28,7 @@ export default defineConfig({
                 format: 'es',
             },
         },
-        outDir: 'public/vendor/beacon',
+        outDir: 'public/vendor/beacon/build',
         emptyOutDir: true,
         // Target ES2017 for broad browser compatibility
         target: 'es2017',

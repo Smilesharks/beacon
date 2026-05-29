@@ -1,0 +1,15 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - vendor
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        # Statamic facades use dynamic proxying — suppress facade method errors
+        - '#Call to an undefined method Statamic\\#'
+        - '#Access to an undefined property Statamic\\#'

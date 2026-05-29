@@ -1,0 +1,55 @@
+{
+    "name": "arielcerda/beacon",
+    "version": "1.0.0",
+    "description": "Attach contextual notifications to any Statamic entry without code.",
+    "keywords": ["statamic", "notifications", "banners", "toasts", "announcements"],
+    "homepage": "https://github.com/arielcerda/beacon",
+    "license": "proprietary",
+    "type": "statamic-addon",
+    "authors": [
+        {
+            "name": "Ariel Cerda",
+            "email": "arielcerdahernandez@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "statamic/cms": "^4.0|^5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-phpunit": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arielcerda\\Beacon\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Arielcerda\\Beacon\\Tests\\": "tests/",
+            "Arielcerda\\Beacon\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Beacon",
+            "description": "Attach contextual notifications to any Statamic entry without code."
+        },
+        "laravel": {
+            "providers": [
+                "Arielcerda\\Beacon\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse",
+        "format": "php-cs-fixer fix"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

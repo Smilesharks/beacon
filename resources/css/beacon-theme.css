@@ -1,0 +1,82 @@
+/**
+ * Beacon starter theme — optional visual baseline.
+ * Include this file in your layout if you want a ready-made look.
+ * Override any custom property to customise.
+ */
+
+:root {
+    --beacon-bg: #18181b;
+    --beacon-color: #fafafa;
+    --beacon-radius: 6px;
+    --beacon-padding: 1rem 1.25rem;
+    --beacon-z-index: 9999;
+    --beacon-font-size: 0.875rem;
+    --beacon-max-width: 380px;
+    --beacon-gap: 0.75rem;
+
+    /* Button colours */
+    --beacon-btn-primary-bg: #6366f1;
+    --beacon-btn-primary-color: #fff;
+    --beacon-btn-secondary-bg: transparent;
+    --beacon-btn-secondary-color: #a5b4fc;
+    --beacon-btn-radius: 4px;
+
+    /* Shadow */
+    --beacon-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.beacon__inner {
+    box-shadow: var(--beacon-shadow);
+}
+
+.beacon__btn--primary {
+    background: var(--beacon-btn-primary-bg);
+    color: var(--beacon-btn-primary-color);
+    border-radius: var(--beacon-btn-radius);
+    font-weight: 600;
+}
+
+.beacon__btn--secondary {
+    background: var(--beacon-btn-secondary-bg);
+    color: var(--beacon-btn-secondary-color);
+    border-radius: var(--beacon-btn-radius);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.beacon__cta {
+    color: #a5b4fc;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.beacon__code {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+    color: #fbbf24;
+}
+
+.beacon__copy-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--beacon-btn-radius);
+    color: inherit;
+    padding: 0.25em 0.75em;
+    font-size: 0.8125em;
+}
+
+.beacon__copy-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.beacon__dismiss {
+    opacity: 0.6;
+}
+
+.beacon__dismiss:hover {
+    opacity: 1;
+}
+
+.beacon-backdrop {
+    backdrop-filter: blur(2px);
+}

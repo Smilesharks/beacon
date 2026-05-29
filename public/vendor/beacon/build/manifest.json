@@ -1,0 +1,12 @@
+{
+  "resources/js/beacon.js": {
+    "file": "beacon.js",
+    "isEntry": true,
+    "src": "resources/js/beacon.js"
+  },
+  "resources/js/cp.js": {
+    "file": "cp.js",
+    "isEntry": true,
+    "src": "resources/js/cp.js"
+  }
+}

@@ -8,7 +8,7 @@ use Smilesharks\Beacon\Repositories\NotificationRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Statamic\Entries\Entry;
+use Statamic\Contracts\Entries\Entry;
 
 class NotificationResolver
 {

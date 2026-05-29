@@ -30,6 +30,7 @@ export default defineConfig({
         },
         outDir: 'public/vendor/beacon/build',
         emptyOutDir: true,
+        manifest: true,
         // Target ES2017 for broad browser compatibility
         target: 'es2017',
         // Warn if beacon.js exceeds 8kb (minified)
